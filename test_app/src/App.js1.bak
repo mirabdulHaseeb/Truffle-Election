@@ -1,0 +1,89 @@
+import './App.css';
+import web3 from './web3';
+import React, { Component } from 'react';
+import election from './election';
+
+class App extends Component {
+
+  state = {
+    electionName: '',
+    value: '',
+    message: '', 
+    balanceOf: 0,
+    owner: '',
+    newCanAddr: '',
+    newCanName: '',
+    totalCans: '',
+  }
+
+  async componentDidMount() {
+    const electionName = await election.methods.electionName().call();
+    this.setState({ electionName });
+
+    const balanceOf = await election.methods.balanceOf().call();
+    const owner = await election.methods.owner().call();
+    const totalCans = await election.methods.getTotalCandidates().call();
+    this.setState({ balanceOf, owner });
+    console.log("Contract balance", balanceOf);
+    console.log("Owner", owner)
+    console.log("Total Candidates", totalCans)
+  }
+
+  handleRegistration = async event => {
+    event.preventDefault();
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts[0])
+
+    this.setState({ message: 'Waiting for transaction to complete...'});
+
+    await election.methods.registerCandidate().send({
+      from: accounts[0],
+      value: web3.utils.toWei(this.state.value, 'ether')
+    });
+    this.setState({ message: 'Candidate Registered'});
+  }
+
+  handleAddCandidate = async event => {
+    event.preventDefault();
+    const accounts = await web3.eth.getAccounts();
+    await election.methods.addCandidate(this.state.newCanAddr, this.state.newCanName).send({from: accounts[0]})
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <h3>{ this.state.electionName }</h3>
+        <hr/>
+          <form onSubmit={this.handleRegistration}>
+            <div>
+              <label>Register Candidate </label>
+              <input value={this.state.value} 
+                onChange={ event => this.setState({ value: event.target.value })}>
+              </input>
+            </div>
+            <button>Register Candidate</button>
+            <br/><br/>
+          </form>
+
+          {/* <form onSubmit={this.handleAddCandidate}>
+            <div>
+              <label>Add Candidate </label>
+              <input value={this.state.newCanAddr} 
+                onChange={ event => this.setState({ newCanAddr: event.target.value })}>
+              </input>
+              <input value={this.state.newCanName} 
+                onChange={ event => this.setState({ newCanName: event.target.value })}>
+              </input>
+            </div>
+            <button>Add Candidate</button>
+            <br/><br/>
+          </form> */}
+
+          <hr/>
+          <h5>{this.state.message}</h5>
+      </div>
+    );
+  }
+}
+
+export default App;

@@ -1,0 +1,38 @@
+import web3 from './web3';
+import React, { Component } from 'react';
+import { ELECTION_ADDRESS, ELECTION_ABI } from './config';
+
+class App extends Component {
+  componentWillMount() {
+    this.loadBlockchainData()
+  }
+
+  async loadBlockchainData() {
+    const accounts = await web3.eth.getAccounts();
+    this.setState({ account1: accounts[0] });
+    const electionContract = new web3.eth.Contract(ELECTION_ABI, ELECTION_ADDRESS);
+    this.setState({ electionContract });
+    const electionName = await electionContract.methods.electionName().call();
+    this.setState({ electionName });
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = { 
+      owner: '',
+      electionName: '',
+    }
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <h3>{ this.state.electionName }</h3>
+        <hr/>
+        <p></p>
+      </div>
+    );
+  }
+}
+
+export default App;
