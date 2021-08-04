@@ -29,11 +29,11 @@ class App extends Component {
     const totalCans = await election.methods.getTotalCandidates().call();
     const totalVotes = await election.methods.totalVotes().call();
     const ownerBalance = await election.methods.getOwnerBalance().call();
-    const balanceInEth = web3.utils.fromWei(ownerBalance, 'ether');
-    this.setState({ balanceOf, owner, totalCans, totalVotes, ownerBalance, balanceInEth });
+    // const balanceInEth = web3.utils.fromWei(ownerBalance, 'ether');
+    this.setState({ balanceOf, owner, totalCans, totalVotes, ownerBalance, });
     console.log("Contract balance", balanceOf);
     console.log("Owner", owner);
-    console.log("Owner's Balance(What is this?????)", balanceInEth);
+    console.log("Owner's Balance(What is this?????)", ownerBalance);
     console.log("Total Candidates", totalCans);
   }
 
