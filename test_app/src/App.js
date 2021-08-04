@@ -124,7 +124,7 @@ class App extends Component {
 
             <br/>
             <div>
-              <input size="35" value={this.state.newCanAddr}
+              <input size="40" value={this.state.newCanAddr}
                 placeholder="Candidate address" 
                 onChange={ event => this.setState({ newCanAddr: event.target.value })}>
               </input>
@@ -137,7 +137,7 @@ class App extends Component {
 
             <br/>
             <div>
-              <input size="35" value={this.state.voterAddress}
+              <input size="40" value={this.state.voterAddress}
                 placeholder="Voter address" 
                 onChange={ event => this.setState({ voterAddress: event.target.value })}>
               </input>
@@ -151,7 +151,7 @@ class App extends Component {
             <br/>
 
             <div>
-              <input size="35" value={this.state.canToVote}
+              <input size="40" value={this.state.canToVote}
                 placeholder="Candidate address" 
                 onChange={ event => this.setState({ canToVote: event.target.value })}>
               </input>
