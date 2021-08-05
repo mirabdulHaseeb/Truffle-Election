@@ -75,7 +75,7 @@ contract Election {
     }
 
     /** 
-    * @dev this function sets the state to Created.
+    * @dev this function sets the state to Voting.
     * @notice this function indicates the start of the election.
     */
     function startVote() public inState(State.Created) onlyOwner {

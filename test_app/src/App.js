@@ -20,6 +20,10 @@ class App extends Component {
     totalVotes: 0
   }
 
+  /** 
+    * @dev this function makes initial function calls.
+    * @notice this function does the initial setup.
+    */
   async componentDidMount() {
     const electionName = await election.methods.electionName().call();
     this.setState({ electionName });
@@ -37,6 +41,12 @@ class App extends Component {
     console.log("Total Candidates", totalCans);
   }
 
+  /** 
+    * @dev this function takes 1 ether to register new candidate.
+    * @notice this function registers new candidate.
+    * @param from the account that makes the transaction.
+    * @param value the amount required to register new candidate.
+    */
   handleRegistration = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
@@ -51,6 +61,11 @@ class App extends Component {
     this.setState({ message: 'Paid'});
   }
 
+  /** 
+    * @dev this function adds the new candidate to the list of candidates.
+    * @notice this function adds new candidate.
+    * @param newCanAddr new candidate's address.
+    */
   handleAddCandidate = async event => {
     event.preventDefault();  
     const accounts = await web3.eth.getAccounts();
@@ -59,6 +74,11 @@ class App extends Component {
     this.setState({ message: 'Candidate added: '+this.state.newCanAddr});
   }
 
+  /** 
+    * @dev this function function registers new voter.
+    * @notice this function registers new voter.
+    * @param voterAddress the address of the voter to be registered.
+    */
   handleVoterRegistration = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
@@ -67,6 +87,10 @@ class App extends Component {
     this.setState({ message: "Voter Registered: "+ this.state.voterAddress});
   }
 
+  /** 
+    * @dev this function sets the state to Voting.
+    * @notice this function indictes the start of voting.
+    */
   handleStartVoting = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
@@ -75,6 +99,10 @@ class App extends Component {
     this.setState({ message: "Voting started" });
   }
 
+  /** 
+    * @dev this function sets the state to End.
+    * @notice this function indicates the end of voting.
+    */
   handleEndVoting = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
@@ -83,6 +111,11 @@ class App extends Component {
     this.setState({ message: "Voting ended" });
   }
 
+  /** 
+    * @dev this function casts vote to the given candidate.
+    * @notice this function casts vote.
+    * @param canToVote the address of the candidate to vote.
+    */
   handleCanToVote = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
@@ -91,6 +124,10 @@ class App extends Component {
     this.setState({ message: "Voted for : "+ this.state.canToVote });
   }
 
+  /** 
+    * @dev this function returns the address of the winner.
+    * @notice this function announces the winner.
+    */
   handleAnnounceWinner = async event => {
     event.preventDefault();
     const winnerAddress = await election.methods.announceWinner().call()
@@ -98,6 +135,10 @@ class App extends Component {
     this.setState({ message: "Winner : "+ winnerAddress });
   }
 
+  /** 
+    * @dev this function send the contract balance to the owner's address.
+    * @notice this function withdraws the funds.
+    */
   handleWithdrawRegistrationFunds = async event => {
     event.preventDefault();
     const accounts = await web3.eth.getAccounts();
